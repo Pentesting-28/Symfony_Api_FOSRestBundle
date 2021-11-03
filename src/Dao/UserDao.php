@@ -21,7 +21,10 @@ class UserDao
     }
 
 
-
+    public function index()
+    {
+        return $this->em->getRepository(User::class)->findAll();
+    }
 
 
 
@@ -31,9 +34,9 @@ class UserDao
 
         $user->setName($user_request->get('name'));
         $user->setLastName($user_request->get('last_name'));
-        $user->setEmail($user_request->get('email'));
-        $user->setDocument($user_request->get('document'));
-        $user->setPassword($user_request->get('password'));
+        // $user->setEmail($user_request->get('email'));
+        // $user->setDocument($user_request->get('document'));
+        // $user->setPassword($user_request->get('password'));
 
         $this->em->persist($user);
 
@@ -66,8 +69,8 @@ class UserDao
 
         $user->setName($user_request->get('name'));
         $user->setLastName($user_request->get('last_name'));
-        $user->setEmail($user_request->get('email'));
-        $user->setDocument($user_request->get('document'));
+        // $user->setEmail($user_request->get('email'));
+        // $user->setDocument($user_request->get('document'));
 
         $this->em->persist($user);
 

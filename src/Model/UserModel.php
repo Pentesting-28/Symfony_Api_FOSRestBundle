@@ -19,22 +19,9 @@ class UserModel
 
 
 
-
-
-
-	public function storeUser($request)
+	public function indexUser()
 	{
-
-		if($request->request->get('password') == $request->request->get('password-confirmation'))
-		{
-			$user_request = $request;
-       		$data = $this->userDao->save($user_request->request);
-		}
-		else{
-			$data = 'Las contraseñas no coinciden.';
-		}
-
-		return $data;
+		return $this->userDao->index();
 	}
 
 
@@ -42,18 +29,9 @@ class UserModel
 
 
 
-	public function editUser($id)
+	public function storeUser($request)
 	{
-
-		if (is_numeric($id))
-		{
-       		$data = $this->userDao->edit($id);
-		}
-		else{
-			$data = ' El id debe ser numerico';
-		}
-
-		return $data;
+		return $this->userDao->save($request->request);
 	}
 
 
@@ -109,14 +87,5 @@ class UserModel
 
 		return $data;
 	}
-
-	// protected function isCsrfTokenValid(string $id, ?string $token): bool
- //    {
- //        if (!$this->container->has('security.csrf.token_manager')) {
- //            throw new \LogicException('CSRF protection is not enabled in your application. Enable it with the "csrf_protection" key in "config/packages/framework.yaml".');
- //        }
-
- //        return $this->container->get('security.csrf.token_manager')->isTokenValid(new CsrfToken($id, $token));
- //    }
 }
 ?>

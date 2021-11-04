@@ -16,32 +16,31 @@ class EmailUtil extends AbstractController
 		$this->mailer = $mailer;
 	}
 
-	public function sedMail()
+	public function sedMail($content)
 	{
-		$message = (new \Swift_Message('Hello Email'))
-        ->setFrom('send@example.com')
-        ->setTo('recipient@example.com')
-        ->setBody(
-            $this->renderView(
-                // templates/emails/registration.html.twig
-                'emails/registration.html.twig',
-                ['name' => $name]
-            ),
-            'text/html'
-        )
+        $data = [
+            'name'    => $content->get('name'),
+            'email'   => $content->get('email'),
+            'phone'   => $content->get('phone'),
+            'company' => $content->get('company'),
+            'message' => $content->get('message'),
+            'date'    => date('Y-m-d H:i:s'),
+        ];
 
-        // you can remove the following code if you don't define a text version for your emails
-        ->addPart(
-            $this->renderView(
-                // templates/emails/registration.txt.twig
-                'emails/registration.txt.twig',
-                ['name' => $name]
-            ),
-            'text/plain'
-        )
-    ;
+		$message = (new \Swift_Message('Test Email'))
+                    ->setFrom('mpenav28@gmail.com')
+                    ->setTo('mpenav28@gmail.com')
+                    ->setBody(
+                        $this->renderView(
+                            // templates/emails/registration.html.twig
+                            'emails/test.html.twig',compact('content'),
+                        ),
+                        'text/html'
+                    );
 
-    $mailer->send($message);
+        $resul = $this->mailer->send($message);
+
+        return $data;
 	}
 }
 ?>

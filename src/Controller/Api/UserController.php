@@ -13,19 +13,24 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Repository\UserRepository;
 use App\Entity\User;
 use App\Model\UserModel as model;
-use App\Util\HelpersUtil as util;
+use App\Util\{
+  HelpersUtil as util,
+  EmailUtil   as mailer, 
+};
 
 class UserController extends AbstractFOSRestController
 {
 
     private
         $model,
-        $util;
+        $util,
+        $mailer;
 
-    public function __construct(model $model, util $util)
+    public function __construct(model $model, util $util, mailer $mailer)
     {
         $this->model = $model;
         $this->util = $util;
+        $this->mailer = $mailer;
     }
 
 
@@ -113,6 +118,24 @@ class UserController extends AbstractFOSRestController
                 'success'    => true,
                 'message'    => 'OK',
                 'data'       => $this->model->destroyUser($id),
+                'statusCode' => JsonResponse::HTTP_OK, // 200
+                'errors'     => NULL,
+            ]);
+        } catch (Exception $e) {
+            return $this->util->responseExceptionJSON($e);
+        }
+    }
+
+    /**
+     * @Rest\Post(path="/user/send")
+     */
+    public function send(Request $request)
+    {
+        try {
+            return $this->util->responseJSON([
+                'success'    => true,
+                'message'    => 'OK',
+                'data'       => $this->model->sedMailUser($request),
                 'statusCode' => JsonResponse::HTTP_OK, // 200
                 'errors'     => NULL,
             ]);

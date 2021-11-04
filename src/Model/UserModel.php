@@ -4,17 +4,20 @@ namespace App\Model;
 
 use App\Dao\UserDao as userDao;
 use Symfony\Component\HttpFoundation\Request;
+use App\Util\EmailUtil as mailer;
 
 class UserModel
 {
 
+	private
+		$userDao,
+		$mailer;
 
-	private $userDao;
 
-
-	function __construct(userDao $userDao)
+	function __construct(userDao $userDao, mailer $mailer)
 	{
 		$this->userDao = $userDao;
+		$this->mailer = $mailer;
 	}
 
 
@@ -86,6 +89,15 @@ class UserModel
 		}
 
 		return $data;
+	}
+
+
+
+
+
+	public function sedMailUser($request)
+	{
+		return 'aqui';
 	}
 }
 ?>
